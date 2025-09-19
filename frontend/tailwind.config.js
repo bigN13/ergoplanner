@@ -1,0 +1,101 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/flowbite-react/**/*.js',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#EBF3FF',
+          100: '#D6E7FF',
+          200: '#ADCFFF',
+          300: '#85B6FF',
+          400: '#5C9EFF',
+          500: '#3385FF',
+          600: '#0066FF',
+          700: '#0052CC',
+          800: '#003D99',
+          900: '#002966',
+        },
+        secondary: {
+          50: '#F5F5F5',
+          100: '#EBEBEB',
+          200: '#D6D6D6',
+          300: '#C2C2C2',
+          400: '#ADADAD',
+          500: '#999999',
+          600: '#7A7A7A',
+          700: '#5C5C5C',
+          800: '#3D3D3D',
+          900: '#1F1F1F',
+        },
+        success: {
+          50: '#E8F7ED',
+          100: '#D0EFDB',
+          200: '#A1DFB7',
+          300: '#72CF93',
+          400: '#43BF6F',
+          500: '#14AF4B',
+          600: '#108C3C',
+          700: '#0C692D',
+          800: '#08461E',
+          900: '#04230F',
+        },
+        warning: {
+          50: '#FFF9E6',
+          100: '#FFF3CC',
+          200: '#FFE799',
+          300: '#FFDB66',
+          400: '#FFCF33',
+          500: '#FFC300',
+          600: '#CC9C00',
+          700: '#997500',
+          800: '#664E00',
+          900: '#332700',
+        },
+        error: {
+          50: '#FFEBEB',
+          100: '#FFD6D6',
+          200: '#FFADAD',
+          300: '#FF8585',
+          400: '#FF5C5C',
+          500: '#FF3333',
+          600: '#FF0000',
+          700: '#CC0000',
+          800: '#990000',
+          900: '#660000',
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.3s ease-in-out',
+        'slide-in': 'slideIn 0.3s ease-out',
+        'pulse-subtle': 'pulseSubtle 2s infinite',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideIn: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        pulseSubtle: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.8' },
+        },
+      },
+    },
+  },
+  plugins: [
+    require('flowbite/plugin'),
+  ],
+};
