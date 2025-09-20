@@ -1,0 +1,41 @@
+# Development environment overrides
+# This file is automatically loaded by docker-compose in development
+version: '3.8'
+
+services:
+  backend:
+    build:
+      target: development
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Serilog__MinimumLevel__Default=Debug
+    volumes:
+      - ./backend:/app:cached
+      - backend_bin:/app/bin
+      - backend_obj:/app/obj
+    command: ["dotnet", "watch", "run", "--project", "src/Ergoplanner.API/Ergoplanner.API.csproj", "--urls", "http://+:80"]
+
+  frontend:
+    build:
+      target: development
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend:/app:cached
+      - frontend_node_modules:/app/node_modules
+    command: ["npm", "run", "dev"]
+
+  ml-service:
+    environment:
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./ml-service:/app:cached
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+volumes:
+  backend_bin:
+    driver: local
+  backend_obj:
+    driver: local

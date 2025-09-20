@@ -1,3 +1,14 @@
+# Development stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS development
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
+ENV NUGET_PACKAGES=/root/.nuget/packages
+ENV NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "src/Ergoplanner.API/Ergoplanner.API.csproj", "--urls", "http://+:80"]
+
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src

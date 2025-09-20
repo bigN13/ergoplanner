@@ -1,0 +1,164 @@
+{
+  "rabbit_version": "3.12",
+  "rabbitmq_version": "3.12",
+  "product_name": "Ergoplanner Message Broker",
+  "product_version": "1.0.0",
+  "users": [],
+  "vhosts": [
+    {
+      "name": "/",
+      "description": "Default virtual host"
+    }
+  ],
+  "permissions": [],
+  "topic_permissions": [],
+  "parameters": [],
+  "policies": [
+    {
+      "vhost": "/",
+      "name": "ha-all",
+      "pattern": ".*",
+      "apply-to": "all",
+      "definition": {
+        "ha-mode": "all",
+        "ha-sync-mode": "automatic",
+        "ha-sync-batch-size": 5
+      },
+      "priority": 0
+    }
+  ],
+  "queues": [
+    {
+      "name": "drawing.events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 86400000,
+        "x-max-length": 10000,
+        "x-dead-letter-exchange": "dlx.exchange"
+      }
+    },
+    {
+      "name": "workflow.events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 86400000,
+        "x-max-length": 10000,
+        "x-dead-letter-exchange": "dlx.exchange"
+      }
+    },
+    {
+      "name": "ml.processing",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 3600000,
+        "x-max-length": 1000,
+        "x-max-priority": 10,
+        "x-dead-letter-exchange": "dlx.exchange"
+      }
+    },
+    {
+      "name": "notifications",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 604800000,
+        "x-max-length": 50000
+      }
+    },
+    {
+      "name": "audit.logs",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 2592000000,
+        "x-max-length": 100000
+      }
+    },
+    {
+      "name": "dlq",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 604800000,
+        "x-max-length": 10000
+      }
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "ergoplanner.exchange",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "dlx.exchange",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    }
+  ],
+  "bindings": [
+    {
+      "source": "ergoplanner.exchange",
+      "vhost": "/",
+      "destination": "drawing.events",
+      "destination_type": "queue",
+      "routing_key": "drawing.#",
+      "arguments": {}
+    },
+    {
+      "source": "ergoplanner.exchange",
+      "vhost": "/",
+      "destination": "workflow.events",
+      "destination_type": "queue",
+      "routing_key": "workflow.#",
+      "arguments": {}
+    },
+    {
+      "source": "ergoplanner.exchange",
+      "vhost": "/",
+      "destination": "ml.processing",
+      "destination_type": "queue",
+      "routing_key": "ml.#",
+      "arguments": {}
+    },
+    {
+      "source": "ergoplanner.exchange",
+      "vhost": "/",
+      "destination": "notifications",
+      "destination_type": "queue",
+      "routing_key": "notification.#",
+      "arguments": {}
+    },
+    {
+      "source": "ergoplanner.exchange",
+      "vhost": "/",
+      "destination": "audit.logs",
+      "destination_type": "queue",
+      "routing_key": "audit.#",
+      "arguments": {}
+    },
+    {
+      "source": "dlx.exchange",
+      "vhost": "/",
+      "destination": "dlq",
+      "destination_type": "queue",
+      "routing_key": "#",
+      "arguments": {}
+    }
+  ]
+}
