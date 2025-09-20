@@ -11,6 +11,11 @@ using Ergoplanner.Infrastructure.Persistence.Repositories;
 using Ergoplanner.Infrastructure.Services;
 using Ergoplanner.Infrastructure.Configuration;
 using Ergoplanner.Application.Commands.Authentication;
+using Ergoplanner.Infrastructure.SignalR;
+using Ergoplanner.Infrastructure.SignalR.Configuration;
+using Ergoplanner.Infrastructure.SignalR.Filters;
+using Ergoplanner.Infrastructure.SignalR.Middleware;
+using Ergoplanner.Infrastructure.SignalR.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -183,6 +188,17 @@ builder.Services.AddScoped<ITokenService, JwtTokenService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+// Configure SignalR Services
+builder.Services.AddScoped<IConnectionManagerService, ConnectionManagerService>();
+builder.Services.AddScoped<ISignalRService, SignalRService>();
+builder.Services.AddSingleton<SignalRJwtAuthenticationService>();
+builder.Services.AddSingleton<SignalRRateLimitingMiddleware>();
+builder.Services.AddSingleton<SignalRSecurityMiddleware>();
+
+// Configure SignalR with Redis backplane
+builder.Services.AddSignalRWithRedis(builder.Configuration);
+builder.Services.AddRedisHealthChecks(builder.Configuration);
+
 // Configure CORS
 builder.Services.AddCors(options =>
 {
@@ -196,7 +212,8 @@ builder.Services.AddCors(options =>
                     "https://localhost:5173")
                    .AllowAnyMethod()
                    .AllowAnyHeader()
-                   .AllowCredentials();
+                   .AllowCredentials()
+                   .SetIsOriginAllowed(_ => true); // Required for SignalR
         });
 
     options.AddPolicy("AllowAll",
@@ -279,6 +296,11 @@ app.UseAuthorization();
 // Map endpoints
 app.MapControllers();
 app.MapHealthChecks("/health");
+
+// Map SignalR Hubs
+app.MapHub<DrawingHub>("/hubs/drawing");
+app.MapHub<NotificationHub>("/hubs/notification");
+app.MapHub<WorkflowHub>("/hubs/workflow");
 
 // Global error handling endpoint
 app.Map("/error", (HttpContext context) =>
