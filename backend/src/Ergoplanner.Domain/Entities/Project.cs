@@ -35,7 +35,10 @@ namespace Ergoplanner.Domain.Entities
         public virtual Organization Organization { get; set; } = null!;
         public virtual ICollection<Team> Teams { get; set; } = new List<Team>();
         public virtual ICollection<Drawing> Drawings { get; set; } = new List<Drawing>();
+        public virtual ICollection<BoQ> BoQs { get; set; } = new List<BoQ>();
         public virtual ICollection<BoQItem> BoQItems { get; set; } = new List<BoQItem>();
+        public virtual ICollection<CostCenter> CostCenters { get; set; } = new List<CostCenter>();
+        public virtual ICollection<PricingRule> PricingRules { get; set; } = new List<PricingRule>();
         public virtual User? CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }
     }

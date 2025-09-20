@@ -27,7 +27,59 @@ namespace Ergoplanner.Infrastructure.Persistence
         // Drawing entities
         public DbSet<Drawing> Drawings { get; set; } = null!;
         public DbSet<Component> Components { get; set; } = null!;
+
+        // BoQ entities
+        public DbSet<BoQ> BoQs { get; set; } = null!;
+        public DbSet<BoQSection> BoQSections { get; set; } = null!;
         public DbSet<BoQItem> BoQItems { get; set; } = null!;
+        public DbSet<BoQTemplate> BoQTemplates { get; set; } = null!;
+        public DbSet<BoQTemplateSection> BoQTemplateSections { get; set; } = null!;
+        public DbSet<BoQTemplateItem> BoQTemplateItems { get; set; } = null!;
+        public DbSet<BoQRevision> BoQRevisions { get; set; } = null!;
+        public DbSet<BoQRevisionItem> BoQRevisionItems { get; set; } = null!;
+        public DbSet<BoQApproval> BoQApprovals { get; set; } = null!;
+        public DbSet<BoQApprovalComment> BoQApprovalComments { get; set; } = null!;
+        public DbSet<BoQApprovalAttachment> BoQApprovalAttachments { get; set; } = null!;
+        public DbSet<BoQChangeRequest> BoQChangeRequests { get; set; } = null!;
+        public DbSet<BoQChangeRequestItem> BoQChangeRequestItems { get; set; } = null!;
+        public DbSet<BoQChangeRequestApproval> BoQChangeRequestApprovals { get; set; } = null!;
+        public DbSet<BoQChangeRequestComment> BoQChangeRequestComments { get; set; } = null!;
+        public DbSet<BoQChangeRequestAttachment> BoQChangeRequestAttachments { get; set; } = null!;
+        public DbSet<BoQExport> BoQExports { get; set; } = null!;
+        public DbSet<BoQExportDownload> BoQExportDownloads { get; set; } = null!;
+        public DbSet<BoQSnapshot> BoQSnapshots { get; set; } = null!;
+        public DbSet<BoQItemPricing> BoQItemPricing { get; set; } = null!;
+        public DbSet<BoQTemplateFeedback> BoQTemplateFeedback { get; set; } = null!;
+
+        // Material entities
+        public DbSet<Material> Materials { get; set; } = null!;
+        public DbSet<MaterialCategory> MaterialCategories { get; set; } = null!;
+        public DbSet<MaterialSpecification> MaterialSpecifications { get; set; } = null!;
+        public DbSet<MaterialSupplier> MaterialSuppliers { get; set; } = null!;
+        public DbSet<MaterialPricing> MaterialPricing { get; set; } = null!;
+        public DbSet<MaterialEquivalent> MaterialEquivalents { get; set; } = null!;
+
+        // Supplier entities
+        public DbSet<Supplier> Suppliers { get; set; } = null!;
+        public DbSet<SupplierContact> SupplierContacts { get; set; } = null!;
+        public DbSet<SupplierDocument> SupplierDocuments { get; set; } = null!;
+        public DbSet<SupplierEvaluation> SupplierEvaluations { get; set; } = null!;
+
+        // Finance entities
+        public DbSet<CostCenter> CostCenters { get; set; } = null!;
+        public DbSet<CostBreakdown> CostBreakdowns { get; set; } = null!;
+        public DbSet<CostBreakdownItem> CostBreakdownItems { get; set; } = null!;
+        public DbSet<PricingRule> PricingRules { get; set; } = null!;
+        public DbSet<PricingRuleApplication> PricingRuleApplications { get; set; } = null!;
+        public DbSet<CurrencyRate> CurrencyRates { get; set; } = null!;
+        public DbSet<CurrencyConversion> CurrencyConversions { get; set; } = null!;
+
+        // Integration entities
+        public DbSet<ERPIntegration> ERPIntegrations { get; set; } = null!;
+        public DbSet<ERPSyncLog> ERPSyncLogs { get; set; } = null!;
+        public DbSet<ERPDataMapping> ERPDataMappings { get; set; } = null!;
+        public DbSet<ReportTemplate> ReportTemplates { get; set; } = null!;
+        public DbSet<ReportTemplateFeedback> ReportTemplateFeedback { get; set; } = null!;
 
         // Symbol entities
         public DbSet<Symbol> Symbols { get; set; } = null!;
@@ -64,7 +116,26 @@ namespace Ergoplanner.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new TeamConfiguration());
             modelBuilder.ApplyConfiguration(new DrawingConfiguration());
             modelBuilder.ApplyConfiguration(new ComponentConfiguration());
+
+            // BoQ configurations
+            modelBuilder.ApplyConfiguration(new BoQConfiguration());
+            modelBuilder.ApplyConfiguration(new BoQSectionConfiguration());
             modelBuilder.ApplyConfiguration(new BoQItemConfiguration());
+            modelBuilder.ApplyConfiguration(new BoQTemplateConfiguration());
+            modelBuilder.ApplyConfiguration(new BoQApprovalConfiguration());
+
+            // Material configurations
+            modelBuilder.ApplyConfiguration(new MaterialConfiguration());
+            modelBuilder.ApplyConfiguration(new MaterialCategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new MaterialSpecificationConfiguration());
+            modelBuilder.ApplyConfiguration(new MaterialSupplierConfiguration());
+
+            // Finance configurations
+            modelBuilder.ApplyConfiguration(new CostCenterConfiguration());
+            modelBuilder.ApplyConfiguration(new PricingRuleConfiguration());
+
+            // Supplier configurations
+            modelBuilder.ApplyConfiguration(new SupplierConfiguration());
 
             // Symbol configurations
             modelBuilder.ApplyConfiguration(new SymbolConfiguration());
@@ -90,6 +161,30 @@ namespace Ergoplanner.Infrastructure.Persistence
             // Apply global query filters for soft delete
             modelBuilder.Entity<Project>().HasQueryFilter(p => !p.IsDeleted);
             modelBuilder.Entity<Organization>().HasQueryFilter(o => !o.IsDeleted);
+
+            // BoQ soft delete filters
+            modelBuilder.Entity<BoQ>().HasQueryFilter(b => !b.IsDeleted);
+            modelBuilder.Entity<BoQSection>().HasQueryFilter(s => !s.IsDeleted);
+            modelBuilder.Entity<BoQItem>().HasQueryFilter(i => !i.IsDeleted);
+            modelBuilder.Entity<BoQTemplate>().HasQueryFilter(t => !t.IsDeleted);
+            modelBuilder.Entity<BoQChangeRequest>().HasQueryFilter(c => !c.IsDeleted);
+
+            // Material soft delete filters
+            modelBuilder.Entity<Material>().HasQueryFilter(m => !m.IsDeleted);
+            modelBuilder.Entity<MaterialCategory>().HasQueryFilter(c => !c.IsDeleted);
+
+            // Supplier soft delete filters
+            modelBuilder.Entity<Supplier>().HasQueryFilter(s => !s.IsDeleted);
+
+            // Finance soft delete filters
+            modelBuilder.Entity<CostCenter>().HasQueryFilter(c => !c.IsDeleted);
+            modelBuilder.Entity<PricingRule>().HasQueryFilter(r => !r.IsDeleted);
+
+            // Integration soft delete filters
+            modelBuilder.Entity<ERPIntegration>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<ReportTemplate>().HasQueryFilter(r => !r.IsDeleted);
+
+            // Symbol soft delete filters
             modelBuilder.Entity<Symbol>().HasQueryFilter(s => !s.IsDeleted);
             modelBuilder.Entity<SymbolCategory>().HasQueryFilter(sc => !sc.IsDeleted);
             modelBuilder.Entity<SymbolTemplate>().HasQueryFilter(st => !st.IsDeleted);

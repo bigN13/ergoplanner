@@ -36,6 +36,7 @@ namespace Ergoplanner.Domain.Entities
         public virtual ICollection<DrawingVersion> Versions { get; set; } = new List<DrawingVersion>();
         public virtual ICollection<ApprovalWorkflow> ApprovalWorkflows { get; set; } = new List<ApprovalWorkflow>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public virtual ICollection<BoQ> BoQs { get; set; } = new List<BoQ>();
         public virtual ICollection<BoQItem> BoQItems { get; set; } = new List<BoQItem>();
         public virtual User? CreatedByUser { get; set; }
         public virtual User? UpdatedByUser { get; set; }

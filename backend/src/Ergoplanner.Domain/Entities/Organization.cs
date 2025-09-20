@@ -37,6 +37,16 @@ namespace Ergoplanner.Domain.Entities
         public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
         public virtual ICollection<Team> Teams { get; set; } = new List<Team>();
         public virtual ICollection<OrganizationBranch> Branches { get; set; } = new List<OrganizationBranch>();
+        public virtual ICollection<BoQ> BoQs { get; set; } = new List<BoQ>();
+        public virtual ICollection<BoQTemplate> BoQTemplates { get; set; } = new List<BoQTemplate>();
+        public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
+        public virtual ICollection<MaterialCategory> MaterialCategories { get; set; } = new List<MaterialCategory>();
+        public virtual ICollection<Supplier> Suppliers { get; set; } = new List<Supplier>();
+        public virtual ICollection<CostCenter> CostCenters { get; set; } = new List<CostCenter>();
+        public virtual ICollection<PricingRule> PricingRules { get; set; } = new List<PricingRule>();
+        public virtual ICollection<CurrencyRate> CurrencyRates { get; set; } = new List<CurrencyRate>();
+        public virtual ICollection<ERPIntegration> ERPIntegrations { get; set; } = new List<ERPIntegration>();
+        public virtual ICollection<ReportTemplate> ReportTemplates { get; set; } = new List<ReportTemplate>();
     }
 
     /// <summary>
