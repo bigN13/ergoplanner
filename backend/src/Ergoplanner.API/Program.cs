@@ -174,6 +174,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
+// Configure Redis Caching
+builder.Services.AddRedisCaching(builder.Configuration);
+builder.Services.AddCacheHealthChecks(builder.Configuration);
+
 // Configure Services
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
