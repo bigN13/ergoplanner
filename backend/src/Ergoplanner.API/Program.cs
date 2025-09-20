@@ -16,18 +16,14 @@ using Ergoplanner.Infrastructure.SignalR.Configuration;
 using Ergoplanner.Infrastructure.SignalR.Filters;
 using Ergoplanner.Infrastructure.SignalR.Middleware;
 using Ergoplanner.Infrastructure.SignalR.Authentication;
+using Ergoplanner.API.Extensions;
+using Ergoplanner.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Serilog
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .WriteTo.File("logs/ergoplanner-.log", rollingInterval: RollingInterval.Day)
-    .CreateLogger();
-
-builder.Host.UseSerilog();
+// Configure Serilog with full logging configuration
+builder.AddSerilogConfiguration();
+builder.Services.AddLoggingConfiguration(builder.Configuration);
 
 // Add services to the container
 builder.Services.AddControllers();
@@ -85,14 +81,8 @@ builder.Services.AddDbContext<ErgoplannerDbContext>(options =>
         b => b.MigrationsAssembly("Ergoplanner.Infrastructure"));
 });
 
-// Configure MediatR
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(LoginCommand).Assembly);
-});
-
-// Configure AutoMapper
-builder.Services.AddAutoMapper(typeof(LoginCommand).Assembly);
+// Configure Application Services (MediatR, AutoMapper, Behaviors)
+builder.Services.AddApplicationServices();
 
 // Configure Settings
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
@@ -225,9 +215,8 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Configure Health Checks
-builder.Services.AddHealthChecks()
-    .AddDbContextCheck<ErgoplannerDbContext>();
+// Configure Monitoring and Logging Services
+builder.Services.AddMonitoringServices(builder.Configuration);
 
 // Configure Response Caching
 builder.Services.AddResponseCaching();
@@ -289,13 +278,15 @@ else
     app.UseCors("AllowSpecificOrigins");
 }
 
+// Add monitoring middleware pipeline
+app.UseMonitoringMiddleware();
+
 // Authentication must come before Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
 // Map endpoints
 app.MapControllers();
-app.MapHealthChecks("/health");
 
 // Map SignalR Hubs
 app.MapHub<DrawingHub>("/hubs/drawing");

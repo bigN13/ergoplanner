@@ -1,0 +1,366 @@
+{
+  "lenses": {
+    "0": {
+      "order": 0,
+      "parts": {
+        "0": {
+          "position": {
+            "x": 0,
+            "y": 0,
+            "colSpan": 6,
+            "rowSpan": 4
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "resourceTypeMode",
+                "isOptional": true
+              },
+              {
+                "name": "ComponentId",
+                "isOptional": true
+              },
+              {
+                "name": "Scope",
+                "value": {
+                  "resourceIds": [
+                    "/subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Insights/components/{app-insights-name}"
+                  ]
+                },
+                "isOptional": true
+              },
+              {
+                "name": "PartId",
+                "value": "83ac2d1f-6c9b-4db4-943d-1d8c0b9b3d3e",
+                "isOptional": true
+              },
+              {
+                "name": "Version",
+                "value": "2.0",
+                "isOptional": true
+              },
+              {
+                "name": "TimeRange",
+                "value": "P1D",
+                "isOptional": true
+              },
+              {
+                "name": "DashboardId",
+                "isOptional": true
+              },
+              {
+                "name": "DraftRequestParameters",
+                "isOptional": true
+              },
+              {
+                "name": "Query",
+                "value": "requests\n| where timestamp > ago(1h)\n| summarize count() by bin(timestamp, 5m), resultCode\n| render timechart",
+                "isOptional": true
+              },
+              {
+                "name": "ControlType",
+                "value": "AnalyticsGrid",
+                "isOptional": true
+              },
+              {
+                "name": "SpecificChart",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "API Request Rate by Status Code",
+                "isOptional": true
+              },
+              {
+                "name": "Dimensions",
+                "isOptional": true
+              },
+              {
+                "name": "LegendOptions",
+                "isOptional": true
+              },
+              {
+                "name": "IsQueryContainTimeRange",
+                "value": false,
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
+            "settings": {}
+          }
+        },
+        "1": {
+          "position": {
+            "x": 6,
+            "y": 0,
+            "colSpan": 6,
+            "rowSpan": 4
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "Query",
+                "value": "requests\n| where timestamp > ago(1h)\n| summarize avg(duration) by bin(timestamp, 5m)\n| render timechart",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "Average Response Time",
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
+          }
+        },
+        "2": {
+          "position": {
+            "x": 0,
+            "y": 4,
+            "colSpan": 4,
+            "rowSpan": 4
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "Query",
+                "value": "customMetrics\n| where name == \"Drawings.Created\"\n| where timestamp > ago(1d)\n| summarize sum(value) by bin(timestamp, 1h)\n| render timechart",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "Drawings Created (Last 24h)",
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
+          }
+        },
+        "3": {
+          "position": {
+            "x": 4,
+            "y": 4,
+            "colSpan": 4,
+            "rowSpan": 4
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "Query",
+                "value": "customMetrics\n| where name == \"Users.Login.Success\"\n| where timestamp > ago(1d)\n| summarize sum(value) by bin(timestamp, 1h)\n| render timechart",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "Successful User Logins (Last 24h)",
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
+          }
+        },
+        "4": {
+          "position": {
+            "x": 8,
+            "y": 4,
+            "colSpan": 4,
+            "rowSpan": 4
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "Query",
+                "value": "exceptions\n| where timestamp > ago(1h)\n| summarize count() by type, bin(timestamp, 10m)\n| render timechart",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "Exception Rate by Type",
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
+          }
+        },
+        "5": {
+          "position": {
+            "x": 0,
+            "y": 8,
+            "colSpan": 6,
+            "rowSpan": 4
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "Query",
+                "value": "traces\n| where message contains \"SecurityAuditEvent\"\n| where timestamp > ago(1h)\n| extend eventType = tostring(customDimensions.SecurityAuditEvent.EventType)\n| summarize count() by eventType, bin(timestamp, 10m)\n| render timechart",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "Security Audit Events",
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
+          }
+        },
+        "6": {
+          "position": {
+            "x": 6,
+            "y": 8,
+            "colSpan": 6,
+            "rowSpan": 4
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "Query",
+                "value": "dependencies\n| where type == \"SQL\"\n| where timestamp > ago(1h)\n| summarize avg(duration) by bin(timestamp, 5m)\n| render timechart",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "Database Query Performance",
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
+          }
+        },
+        "7": {
+          "position": {
+            "x": 0,
+            "y": 12,
+            "colSpan": 3,
+            "rowSpan": 3
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "Query",
+                "value": "requests\n| where timestamp > ago(1h)\n| where resultCode >= 400\n| summarize ErrorRate = count() * 100.0 / toscalar(requests | where timestamp > ago(1h) | count())\n| project ErrorRate",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "Error Rate %",
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
+          }
+        },
+        "8": {
+          "position": {
+            "x": 3,
+            "y": 12,
+            "colSpan": 3,
+            "rowSpan": 3
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "Query",
+                "value": "customMetrics\n| where name == \"Performance.ConcurrentUsers\"\n| where timestamp > ago(5m)\n| summarize max(value)\n| project ConcurrentUsers = max_value",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "Current Active Users",
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
+          }
+        },
+        "9": {
+          "position": {
+            "x": 6,
+            "y": 12,
+            "colSpan": 3,
+            "rowSpan": 3
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "Query",
+                "value": "customMetrics\n| where name == \"Performance.MemoryUsage\"\n| where timestamp > ago(5m)\n| summarize avg(value) / 1024 / 1024\n| project MemoryUsageMB = avg_value",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "Memory Usage (MB)",
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
+          }
+        },
+        "10": {
+          "position": {
+            "x": 9,
+            "y": 12,
+            "colSpan": 3,
+            "rowSpan": 3
+          },
+          "metadata": {
+            "inputs": [
+              {
+                "name": "Query",
+                "value": "customMetrics\n| where name startswith \"HealthCheck.Status\"\n| where timestamp > ago(5m)\n| summarize arg_max(timestamp, value) by name\n| where value == 0\n| count",
+                "isOptional": true
+              },
+              {
+                "name": "PartTitle",
+                "value": "Failed Health Checks",
+                "isOptional": true
+              }
+            ],
+            "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart"
+          }
+        }
+      }
+    }
+  },
+  "metadata": {
+    "model": {
+      "timeRange": {
+        "value": {
+          "relative": {
+            "duration": 24,
+            "timeUnit": 1
+          }
+        },
+        "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+      },
+      "filterLocale": {
+        "value": "en-us"
+      },
+      "filters": {
+        "value": {
+          "MsPortalFx_TimeRange": {
+            "model": {
+              "format": "utc",
+              "granularity": "auto",
+              "relative": "24h"
+            },
+            "displayCache": {
+              "name": "UTC Time",
+              "value": "Past 24 hours"
+            },
+            "filteredPartIds": [
+              "StartboardPart-LogsDashboardPart-83ac2d1f-6c9b-4db4-943d-1d8c0b9b3d3e"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "name": "Ergoplanner Monitoring Dashboard",
+  "type": "Microsoft.Portal/dashboards",
+  "location": "INSERT LOCATION",
+  "tags": {
+    "hidden-title": "Ergoplanner Monitoring Dashboard"
+  },
+  "apiVersion": "2015-08-01-preview"
+}

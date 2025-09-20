@@ -1,0 +1,204 @@
+{
+  "alertRules": [
+    {
+      "name": "High Error Rate",
+      "description": "Triggers when error rate exceeds 5% over 5 minutes",
+      "severity": "Critical",
+      "query": "requests | where timestamp > ago(5m) | where resultCode >= 400 | summarize ErrorRate = count() * 100.0 / toscalar(requests | where timestamp > ago(5m) | count())",
+      "threshold": 5,
+      "operator": "GreaterThan",
+      "evaluationFrequency": "PT1M",
+      "windowSize": "PT5M",
+      "actions": [
+        {
+          "type": "email",
+          "recipients": ["ops-team@company.com"],
+          "subject": "Ergoplanner: High Error Rate Alert"
+        },
+        {
+          "type": "webhook",
+          "url": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK"
+        }
+      ]
+    },
+    {
+      "name": "High Response Time",
+      "description": "Triggers when average response time exceeds 2 seconds over 5 minutes",
+      "severity": "Warning",
+      "query": "requests | where timestamp > ago(5m) | summarize avg(duration)",
+      "threshold": 2000,
+      "operator": "GreaterThan",
+      "evaluationFrequency": "PT1M",
+      "windowSize": "PT5M",
+      "actions": [
+        {
+          "type": "email",
+          "recipients": ["dev-team@company.com"],
+          "subject": "Ergoplanner: High Response Time Alert"
+        }
+      ]
+    },
+    {
+      "name": "Database Performance Degradation",
+      "description": "Triggers when database query time exceeds 1 second average over 5 minutes",
+      "severity": "Warning",
+      "query": "dependencies | where type == 'SQL' | where timestamp > ago(5m) | summarize avg(duration)",
+      "threshold": 1000,
+      "operator": "GreaterThan",
+      "evaluationFrequency": "PT1M",
+      "windowSize": "PT5M",
+      "actions": [
+        {
+          "type": "email",
+          "recipients": ["dba-team@company.com"],
+          "subject": "Ergoplanner: Database Performance Alert"
+        }
+      ]
+    },
+    {
+      "name": "Health Check Failure",
+      "description": "Triggers when any health check fails",
+      "severity": "Critical",
+      "query": "customMetrics | where name startswith 'HealthCheck.Status' | where timestamp > ago(2m) | summarize arg_max(timestamp, value) by name | where value == 0 | count",
+      "threshold": 0,
+      "operator": "GreaterThan",
+      "evaluationFrequency": "PT1M",
+      "windowSize": "PT2M",
+      "actions": [
+        {
+          "type": "email",
+          "recipients": ["ops-team@company.com"],
+          "subject": "Ergoplanner: Health Check Failure Alert"
+        },
+        {
+          "type": "webhook",
+          "url": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK"
+        }
+      ]
+    },
+    {
+      "name": "Security Alert - Multiple Failed Logins",
+      "description": "Triggers when there are multiple failed login attempts",
+      "severity": "Warning",
+      "query": "traces | where message contains 'SecurityAuditEvent' | extend eventType = tostring(customDimensions.SecurityAuditEvent.EventType) | where eventType == 'UserLoginAttempt' | extend successful = tobool(customDimensions.SecurityAuditEvent.Successful) | where successful == false | where timestamp > ago(10m) | summarize count() by tostring(customDimensions.SecurityAuditEvent.Email) | where count_ >= 3",
+      "threshold": 0,
+      "operator": "GreaterThan",
+      "evaluationFrequency": "PT2M",
+      "windowSize": "PT10M",
+      "actions": [
+        {
+          "type": "email",
+          "recipients": ["security-team@company.com"],
+          "subject": "Ergoplanner: Security Alert - Multiple Failed Logins"
+        }
+      ]
+    },
+    {
+      "name": "High Memory Usage",
+      "description": "Triggers when memory usage exceeds 85%",
+      "severity": "Warning",
+      "query": "customMetrics | where name == 'Performance.MemoryUsage' | where timestamp > ago(5m) | summarize avg(value)",
+      "threshold": 85,
+      "operator": "GreaterThan",
+      "evaluationFrequency": "PT1M",
+      "windowSize": "PT5M",
+      "actions": [
+        {
+          "type": "email",
+          "recipients": ["ops-team@company.com"],
+          "subject": "Ergoplanner: High Memory Usage Alert"
+        }
+      ]
+    },
+    {
+      "name": "Exception Rate High",
+      "description": "Triggers when exception rate exceeds 10 per minute",
+      "severity": "Warning",
+      "query": "exceptions | where timestamp > ago(1m) | count",
+      "threshold": 10,
+      "operator": "GreaterThan",
+      "evaluationFrequency": "PT1M",
+      "windowSize": "PT1M",
+      "actions": [
+        {
+          "type": "email",
+          "recipients": ["dev-team@company.com"],
+          "subject": "Ergoplanner: High Exception Rate Alert"
+        }
+      ]
+    },
+    {
+      "name": "Cache Miss Rate High",
+      "description": "Triggers when cache miss rate exceeds 50%",
+      "severity": "Information",
+      "query": "customMetrics | where name in ('Cache.Hits', 'Cache.Misses') | where timestamp > ago(10m) | summarize hits = sumif(value, name == 'Cache.Hits'), misses = sumif(value, name == 'Cache.Misses') | extend missRate = misses * 100.0 / (hits + misses) | project missRate",
+      "threshold": 50,
+      "operator": "GreaterThan",
+      "evaluationFrequency": "PT5M",
+      "windowSize": "PT10M",
+      "actions": [
+        {
+          "type": "email",
+          "recipients": ["dev-team@company.com"],
+          "subject": "Ergoplanner: High Cache Miss Rate Alert"
+        }
+      ]
+    },
+    {
+      "name": "Brute Force Attack Detection",
+      "description": "Triggers when brute force attack is detected",
+      "severity": "Critical",
+      "query": "traces | where message contains 'SecurityAuditEvent' | extend eventType = tostring(customDimensions.SecurityAuditEvent.EventType) | where eventType == 'BruteForceAttempt' | where timestamp > ago(5m) | count",
+      "threshold": 0,
+      "operator": "GreaterThan",
+      "evaluationFrequency": "PT1M",
+      "windowSize": "PT5M",
+      "actions": [
+        {
+          "type": "email",
+          "recipients": ["security-team@company.com"],
+          "subject": "Ergoplanner: CRITICAL - Brute Force Attack Detected"
+        },
+        {
+          "type": "webhook",
+          "url": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK"
+        }
+      ]
+    },
+    {
+      "name": "Unauthorized Access Attempts",
+      "description": "Triggers when unauthorized access attempts exceed threshold",
+      "severity": "Warning",
+      "query": "traces | where message contains 'SecurityAuditEvent' | extend eventType = tostring(customDimensions.SecurityAuditEvent.EventType) | where eventType == 'UnauthorizedAccess' | where timestamp > ago(10m) | count",
+      "threshold": 5,
+      "operator": "GreaterThan",
+      "evaluationFrequency": "PT2M",
+      "windowSize": "PT10M",
+      "actions": [
+        {
+          "type": "email",
+          "recipients": ["security-team@company.com"],
+          "subject": "Ergoplanner: Multiple Unauthorized Access Attempts"
+        }
+      ]
+    }
+  ],
+  "configuration": {
+    "evaluationFrequencyDefault": "PT1M",
+    "windowSizeDefault": "PT5M",
+    "autoMitigate": true,
+    "alertDescriptionTemplate": "Alert triggered for Ergoplanner application. Please investigate immediately.",
+    "commonActions": [
+      {
+        "type": "webhook",
+        "name": "PagerDuty Integration",
+        "url": "https://events.pagerduty.com/integration/YOUR_INTEGRATION_KEY/enqueue"
+      },
+      {
+        "type": "webhook",
+        "name": "Teams Notification",
+        "url": "https://outlook.office.com/webhook/YOUR_TEAMS_WEBHOOK"
+      }
+    ]
+  }
+}
