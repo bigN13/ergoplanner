@@ -10,6 +10,7 @@ import authSlice from './slices/authSlice';
 import uiSlice from './slices/uiSlice';
 import drawingSlice from './slices/drawingSlice';
 import notificationSlice from './slices/notificationSlice';
+import toolPaletteSlice from './slices/toolPaletteSlice';
 
 // Middleware configuration
 const getMiddleware = (getDefaultMiddleware: any) => {
@@ -46,6 +47,7 @@ export const store = configureStore({
     ui: uiSlice,
     drawing: drawingSlice,
     notifications: notificationSlice,
+    toolPalette: toolPaletteSlice,
   },
   middleware: getMiddleware,
   devTools: process.env.NODE_ENV === 'development' && {
