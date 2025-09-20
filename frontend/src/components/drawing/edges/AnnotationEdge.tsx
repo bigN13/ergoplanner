@@ -250,4 +250,32 @@ export const AnnotationEdge: React.FC<EdgeProps<AnnotationEdgeData>> = memo(({
 
 AnnotationEdge.displayName = 'AnnotationEdge';
 
+// Export with default data creation helper
 export default AnnotationEdge;
+
+// Helper to create default annotation edge data
+export const createAnnotationEdgeData = (overrides: Partial<AnnotationEdgeData> = {}): AnnotationEdgeData => ({
+  edgeType: 'annotation' as any,
+  annotationType: 'callout',
+  text: 'Annotation',
+  arrowType: 'end',
+  style: {
+    strokeDasharray: '5,5',
+    strokeWidth: 2,
+    color: '#6b7280',
+    fontSize: 12,
+    fontFamily: 'Arial',
+  },
+  locked: false,
+  layer: 'default',
+  label: '',
+  waypoints: [],
+  manuallyAdjusted: false,
+  crossings: [],
+  zIndex: 1,
+  visible: true,
+  selectable: true,
+  routingAlgorithm: RoutingAlgorithm.STRAIGHT,
+  metadata: {},
+  ...overrides,
+});

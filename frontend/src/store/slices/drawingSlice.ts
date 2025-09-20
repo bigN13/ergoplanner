@@ -1,5 +1,14 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { Drawing, Component, ReactFlowData } from '@/types';
+import {
+  RoutingPreferences,
+  RoutingConstraint,
+  EdgeCrossing,
+  ValidationError,
+  RoutingAlgorithm,
+  Waypoint,
+  RoutingEdge,
+} from '@/types/routing';
 
 // Drawing state interface
 interface DrawingState {
@@ -80,6 +89,28 @@ interface DrawingState {
     enableCollaboration: boolean;
     autoLayout: boolean;
   };
+
+  // Edge routing state
+  routing: {
+    preferences: RoutingPreferences;
+    constraints: RoutingConstraint[];
+    crossings: EdgeCrossing[];
+    validationErrors: ValidationError[];
+    isRoutingEnabled: boolean;
+    activeRoutingMode: 'auto' | 'manual';
+    showWaypoints: boolean;
+    showCrossings: boolean;
+    enableRealTimeRouting: boolean;
+  };
+
+  // Edge management
+  edges: {
+    routingEdges: RoutingEdge[];
+    edgeWaypoints: Record<string, Waypoint[]>;
+    edgeCrossings: Record<string, EdgeCrossing[]>;
+    edgeValidation: Record<string, ValidationError[]>;
+    lastRoutingUpdate: number;
+  };
 }
 
 // Initial state
@@ -88,6 +119,37 @@ const initialReactFlowData: ReactFlowData = {
   nodes: [],
   edges: [],
   viewport: initialViewport,
+};
+
+// Initial routing preferences
+const initialRoutingPreferences: RoutingPreferences = {
+  globalSettings: {
+    algorithm: RoutingAlgorithm.ORTHOGONAL,
+    optimization: true,
+    realTimeRouting: true,
+    showCrossings: true,
+    showWaypoints: true,
+    enableAnimations: true,
+  },
+  pipeDefaults: {
+    algorithm: RoutingAlgorithm.ORTHOGONAL,
+    bendRadius: 10,
+    spacing: 30,
+    showFlow: true,
+    showLabels: true,
+  },
+  signalDefaults: {
+    algorithm: RoutingAlgorithm.STRAIGHT,
+    separation: 15,
+    bundling: true,
+    showProtocol: true,
+  },
+  validationSettings: {
+    enableRealTime: true,
+    strictMode: false,
+    autoCorrect: false,
+    highlightIssues: true,
+  },
 };
 
 const initialState: DrawingState = {
@@ -136,6 +198,24 @@ const initialState: DrawingState = {
     showDimensions: false,
     enableCollaboration: true,
     autoLayout: false,
+  },
+  routing: {
+    preferences: initialRoutingPreferences,
+    constraints: [],
+    crossings: [],
+    validationErrors: [],
+    isRoutingEnabled: true,
+    activeRoutingMode: 'auto',
+    showWaypoints: true,
+    showCrossings: true,
+    enableRealTimeRouting: true,
+  },
+  edges: {
+    routingEdges: [],
+    edgeWaypoints: {},
+    edgeCrossings: {},
+    edgeValidation: {},
+    lastRoutingUpdate: Date.now(),
   },
 };
 
