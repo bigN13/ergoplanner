@@ -13,6 +13,13 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
     "plugins": [
       {
         "name": "next"
@@ -28,7 +35,8 @@
       "@/utils/*": ["./src/utils/*"],
       "@/styles/*": ["./src/styles/*"],
       "@/api/*": ["./src/api/*"],
-      "@/config/*": ["./src/config/*"]
+      "@/config/*": ["./src/config/*"],
+      "@/middleware/*": ["./src/middleware/*"]
     },
     "baseUrl": ".",
     "forceConsistentCasingInFileNames": true
