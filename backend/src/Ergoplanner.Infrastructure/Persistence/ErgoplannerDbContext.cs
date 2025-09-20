@@ -26,9 +26,23 @@ namespace Ergoplanner.Infrastructure.Persistence
 
         // Drawing entities
         public DbSet<Drawing> Drawings { get; set; } = null!;
-        public DbSet<Symbol> Symbols { get; set; } = null!;
         public DbSet<Component> Components { get; set; } = null!;
         public DbSet<BoQItem> BoQItems { get; set; } = null!;
+
+        // Symbol entities
+        public DbSet<Symbol> Symbols { get; set; } = null!;
+        public DbSet<SymbolCategory> SymbolCategories { get; set; } = null!;
+        public DbSet<SymbolTemplate> SymbolTemplates { get; set; } = null!;
+        public DbSet<SymbolVersion> SymbolVersions { get; set; } = null!;
+        public DbSet<SymbolProperty> SymbolProperties { get; set; } = null!;
+        public DbSet<SymbolSpecification> SymbolSpecifications { get; set; } = null!;
+        public DbSet<SymbolStandard> SymbolStandards { get; set; } = null!;
+        public DbSet<SymbolUsage> SymbolUsage { get; set; } = null!;
+        public DbSet<SymbolFavorite> SymbolFavorites { get; set; } = null!;
+        public DbSet<SymbolFeedback> SymbolFeedback { get; set; } = null!;
+        public DbSet<SymbolVariant> SymbolVariants { get; set; } = null!;
+        public DbSet<SymbolApproval> SymbolApprovals { get; set; } = null!;
+        public DbSet<SymbolChangeLog> SymbolChangeLogs { get; set; } = null!;
 
         // Workflow entities
         public DbSet<DrawingVersion> DrawingVersions { get; set; } = null!;
@@ -49,16 +63,37 @@ namespace Ergoplanner.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
             modelBuilder.ApplyConfiguration(new TeamConfiguration());
             modelBuilder.ApplyConfiguration(new DrawingConfiguration());
-            modelBuilder.ApplyConfiguration(new SymbolConfiguration());
             modelBuilder.ApplyConfiguration(new ComponentConfiguration());
             modelBuilder.ApplyConfiguration(new BoQItemConfiguration());
+
+            // Symbol configurations
+            modelBuilder.ApplyConfiguration(new SymbolConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolCategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolTemplateConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolVersionConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolPropertyConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolSpecificationConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolStandardConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolUsageConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolFavoriteConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolFeedbackConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolVariantConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolApprovalConfiguration());
+            modelBuilder.ApplyConfiguration(new SymbolChangeLogConfiguration());
+
+            // Workflow configurations
             modelBuilder.ApplyConfiguration(new ApprovalWorkflowConfiguration());
             modelBuilder.ApplyConfiguration(new DrawingVersionConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
             modelBuilder.ApplyConfiguration(new AuditLogConfiguration());
 
-            // Apply global query filters
+            // Apply global query filters for soft delete
             modelBuilder.Entity<Project>().HasQueryFilter(p => !p.IsDeleted);
+            modelBuilder.Entity<Organization>().HasQueryFilter(o => !o.IsDeleted);
+            modelBuilder.Entity<Symbol>().HasQueryFilter(s => !s.IsDeleted);
+            modelBuilder.Entity<SymbolCategory>().HasQueryFilter(sc => !sc.IsDeleted);
+            modelBuilder.Entity<SymbolTemplate>().HasQueryFilter(st => !st.IsDeleted);
+            modelBuilder.Entity<SymbolVariant>().HasQueryFilter(sv => !sv.IsDeleted);
 
             // Set delete behavior
             foreach (var relationship in modelBuilder.Model.GetEntityTypes()
