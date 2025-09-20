@@ -1,0 +1,67 @@
+# Configuration for GitHub labeler action
+
+backend:
+  - backend/**/*
+  - '*.cs'
+  - '*.csproj'
+  - '*.sln'
+
+frontend:
+  - frontend/**/*
+  - '*.ts'
+  - '*.tsx'
+  - '*.js'
+  - '*.jsx'
+  - 'package.json'
+  - 'package-lock.json'
+
+ml-service:
+  - ml-service/**/*
+  - '*.py'
+  - 'requirements.txt'
+
+docker:
+  - '**/Dockerfile'
+  - '**/Dockerfile.*'
+  - 'docker-compose*.yml'
+  - '**/.dockerignore'
+
+infrastructure:
+  - infrastructure/**/*
+  - '.github/**/*'
+  - 'k8s/**/*'
+
+database:
+  - '**/migrations/**/*'
+  - 'infrastructure/database/**/*'
+  - '**/*.sql'
+
+documentation:
+  - '**/*.md'
+  - 'docs/**/*'
+  - 'LICENSE'
+
+tests:
+  - '**/*.test.*'
+  - '**/*.spec.*'
+  - '**/tests/**/*'
+  - '**/test/**/*'
+  - '**/__tests__/**/*'
+
+security:
+  - '**/security/**/*'
+  - '.github/workflows/codeql-*.yml'
+  - '**/*security*'
+
+ci-cd:
+  - '.github/workflows/*'
+  - '.github/actions/*'
+  - '**/ci/**/*'
+  - '**/cd/**/*'
+
+dependencies:
+  - '**/package.json'
+  - '**/package-lock.json'
+  - '**/*.csproj'
+  - '**/requirements.txt'
+  - '.github/dependabot.yml'

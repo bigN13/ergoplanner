@@ -5,9 +5,11 @@
 Ergoplanner AI Suite is an enterprise-grade Piping & Instrumentation Diagram (P&ID) management system designed for engineering companies in the construction and water treatment industries. Built with cutting-edge technology and AI-driven features, it revolutionizes how teams create, manage, and collaborate on engineering drawings.
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue)
+[![Build Status](https://github.com/ergoplanner/ergoplanner-suite/workflows/Main%20CI%2FCD%20Pipeline/badge.svg)](https://github.com/ergoplanner/ergoplanner-suite/actions)
+[![CodeQL](https://github.com/ergoplanner/ergoplanner-suite/workflows/CodeQL/badge.svg)](https://github.com/ergoplanner/ergoplanner-suite/security)
+[![Coverage](https://img.shields.io/codecov/c/github/ergoplanner/ergoplanner-suite)](https://codecov.io/gh/ergoplanner/ergoplanner-suite)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://hub.docker.com/r/ergoplanner)
 ![License](https://img.shields.io/badge/license-Proprietary-red)
-![Build Status](https://img.shields.io/badge/build-pending-yellow)
-![Coverage](https://img.shields.io/badge/coverage-0%25-red)
 
 ## ✨ Key Features
 

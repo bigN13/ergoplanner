@@ -1,0 +1,62 @@
+# CODEOWNERS for Ergoplanner AI Suite
+# This file defines who should review PRs for different parts of the codebase
+
+# Default owners for everything in the repo
+* @ergoplanner/core-team
+
+# Backend (.NET Core)
+/backend/ @ergoplanner/backend-team
+*.cs @ergoplanner/backend-team
+*.csproj @ergoplanner/backend-team
+*.sln @ergoplanner/backend-team
+
+# Frontend (Next.js)
+/frontend/ @ergoplanner/frontend-team
+*.ts @ergoplanner/frontend-team
+*.tsx @ergoplanner/frontend-team
+*.js @ergoplanner/frontend-team
+*.jsx @ergoplanner/frontend-team
+*.css @ergoplanner/frontend-team
+*.scss @ergoplanner/frontend-team
+
+# ML Service (Python)
+/ml-service/ @ergoplanner/ml-team
+*.py @ergoplanner/ml-team
+requirements.txt @ergoplanner/ml-team
+
+# Database
+/infrastructure/database/ @ergoplanner/database-team
+*.sql @ergoplanner/database-team
+/backend/src/Ergoplanner.Infrastructure/Persistence/ @ergoplanner/database-team
+
+# DevOps & Infrastructure
+/infrastructure/ @ergoplanner/devops-team
+/.github/ @ergoplanner/devops-team
+/k8s/ @ergoplanner/devops-team
+*Dockerfile* @ergoplanner/devops-team
+docker-compose*.yml @ergoplanner/devops-team
+*.yaml @ergoplanner/devops-team
+*.yml @ergoplanner/devops-team
+
+# Documentation
+/docs/ @ergoplanner/documentation-team
+*.md @ergoplanner/documentation-team
+LICENSE @ergoplanner/legal-team
+
+# Security-sensitive files
+.env* @ergoplanner/security-team
+**/security/ @ergoplanner/security-team
+**/auth/ @ergoplanner/security-team
+**/Authentication/ @ergoplanner/security-team
+**/Authorization/ @ergoplanner/security-team
+
+# CI/CD
+/.github/workflows/ @ergoplanner/devops-team @ergoplanner/core-team
+/.github/actions/ @ergoplanner/devops-team
+
+# Dependencies
+package.json @ergoplanner/frontend-team @ergoplanner/security-team
+package-lock.json @ergoplanner/frontend-team @ergoplanner/security-team
+*.csproj @ergoplanner/backend-team @ergoplanner/security-team
+requirements.txt @ergoplanner/ml-team @ergoplanner/security-team
+.github/dependabot.yml @ergoplanner/devops-team @ergoplanner/security-team
